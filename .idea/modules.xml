@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RGS_Signature.iml" filepath="$PROJECT_DIR$/RGS_Signature.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SignatureView/SignatureView.iml" filepath="$PROJECT_DIR$/SignatureView/SignatureView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/signature-view/signature-view.iml" filepath="$PROJECT_DIR$/signature-view/signature-view.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">РГС Подпись</string>
+    <string name="app_settings">РГС Подпись (Настройки)</string>
+    <string name="title_activity_signature">Подпись</string>
+    <string name="title_activity_camera">Камера</string>
+
+    <string name="action_camera">Камера</string>
+    <string name="action_download">Скачать</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_info">Информация</string>
+    <string name="action_has_signature">Проверка подписи</string>
+
+    <string name="message">Информация</string>
+    <string name="cancel">Отмена</string>
+    <string name="info">Информация о версии</string>
+
+    <string name="c_name">Росгосстрах Медицина</string>
+    <string name="canvas_cleared">Экран очищен</string>
+</resources>
