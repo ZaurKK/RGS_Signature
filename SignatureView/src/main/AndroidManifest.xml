@@ -35,7 +35,8 @@
         </activity>
         <activity
             android:name="com.zaurkandokhov.signature.Signature"
-            android:label="@string/title_activity_signature" >
+            android:label="@string/title_activity_signature"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />

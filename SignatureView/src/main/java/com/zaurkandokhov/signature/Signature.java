@@ -6,8 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -39,7 +42,7 @@ public class Signature extends AppCompatActivity {
     private static final String FILE_SIGNATURE_PREFIX = "signature";
     private static final String FILE_CAMERA_PREFIX = "camera";
 
-    private static final int CAMERA_REQUEST = 1888;
+    private static final int REQUEST_CODE_CAMERA = 1888;
 
     private SignatureView signatureView;
     //private ImageView imageView;
@@ -162,7 +165,8 @@ public class Signature extends AppCompatActivity {
 
     private void showCameraIntent() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+        cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
     }
 
     private void saveBitmapImage(Bitmap bitmap, String fileNamePrefix, boolean useExternalStorage, boolean useUniqueFileName) {
@@ -205,14 +209,53 @@ public class Signature extends AppCompatActivity {
         }
     }
 
+    private static Bitmap imageOrientationValidator(Bitmap bitmap, String path) {
+        Bitmap rotatedBitmap = null;
+        try {
+            ExifInterface ei = new ExifInterface(path);
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+
+            switch (orientation) {
+
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotatedBitmap = rotateImage(bitmap, 90);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotatedBitmap = rotateImage(bitmap, 180);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotatedBitmap = rotateImage(bitmap, 270);
+                    break;
+
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    rotatedBitmap = bitmap;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return rotatedBitmap;
+    }
+
+    private static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
-            case CAMERA_REQUEST:
+            case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
-                        Bitmap photo = (Bitmap) data.getExtras().get("data");
+                        Bitmap photo = rotateImage((Bitmap) data.getExtras().get("data"), -90);
                         saveBitmapImage(photo, FILE_CAMERA_PREFIX, false, false);
+                        showCameraIntent();
                         //imageView.setImageBitmap(photo);
                         //imageView.setImageBitmap(getBitmapFromResources(getResources(), R.drawable.logo));
                     }
