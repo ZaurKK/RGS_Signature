@@ -36,8 +36,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Signature extends AppCompatActivity {
-    private static final int PERMISSIONS_WRITE_EXTERNAL_STORAGE = 0;
-    private static final int PERMISSIONS_CAMERA = 1;
+    private static final int PERMISSIONS_ALL = 0;
+    private static final int PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int PERMISSIONS_CAMERA = 2;
+
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
 
     private static final String FILE_SIGNATURE_PREFIX = "signature";
     private static final String FILE_CAMERA_PREFIX = "camera";
@@ -70,8 +76,7 @@ public class Signature extends AppCompatActivity {
             // Handle other intents, such as being started from the home screen
         }
 
-        requestPermission(PERMISSIONS_WRITE_EXTERNAL_STORAGE);
-        requestPermission(PERMISSIONS_CAMERA);
+        requestPermissions();
     }
 
     void handleSendImage(Intent intent) {
@@ -253,101 +258,117 @@ public class Signature extends AppCompatActivity {
             case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
-                        Bitmap photo = rotateImage((Bitmap) data.getExtras().get("data"), -90);
+                        Bitmap photo = imageOrientationValidator((Bitmap) data.getExtras().get("data"), "photo_temp.png");
                         saveBitmapImage(photo, FILE_CAMERA_PREFIX, false, false);
                         showCameraIntent();
-                        //imageView.setImageBitmap(photo);
-                        //imageView.setImageBitmap(getBitmapFromResources(getResources(), R.drawable.logo));
                     }
                 }
                 break;
         }
     }
 
-    public void requestPermission(final int requestCode) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            final String permissionString;
-            final String alertDialogTitle;
-            final String alertDialogMessage;
-            switch (requestCode) {
-                case PERMISSIONS_WRITE_EXTERNAL_STORAGE:
-                    permissionString = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-                    alertDialogTitle = "Запись на внешний накопитель";
-                    alertDialogMessage = "Мы не можем сохранить файл без Вашего разрешения. Разрешить запись файла?";
-                    break;
-                case PERMISSIONS_CAMERA:
-                    permissionString = Manifest.permission.CAMERA;
-                    alertDialogTitle = "Доступ к камере";
-                    alertDialogMessage = "Мы не можем использовать камеру без Вашего разрешения. Разрешить использование камеры?";
-                    break;
-                default:
-                    permissionString = "";
-                    alertDialogTitle = "";
-                    alertDialogMessage = "";
-            }
-
-            if (ActivityCompat.checkSelfPermission(this, permissionString) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                if (shouldShowRequestPermissionRationale(permissionString)) {
-                    new AlertDialog.Builder(Signature.this)
-                            .setTitle(alertDialogTitle)
-                            .setMessage(alertDialogMessage)
-                            .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        requestPermissions(new String[]{ permissionString }, requestCode);
-                                    }
-                                }
-                            })
-                            .setNegativeButton("Нет, спасибо", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Toast.makeText(Signature.this, ":(", Toast.LENGTH_SHORT).show();
-                                }
-                            }).show();
-                } else {
-                    ActivityCompat.requestPermissions(this, new String[]{ permissionString }, requestCode);
+    private boolean hasPermissions(String[] permissions) {
+        if (permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
                 }
             }
         }
+        return true;
+    }
+
+    private void requestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!hasPermissions(PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSIONS_ALL);
+            }
+        }
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            final String permissionString;
+//            final String alertDialogTitle;
+//            final String alertDialogMessage;
+//            switch (requestCode) {
+//                case PERMISSIONS_WRITE_EXTERNAL_STORAGE:
+//                    permissionString = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+//                    alertDialogTitle = "Запись на внешний накопитель";
+//                    alertDialogMessage = "Мы не можем сохранить файл без Вашего разрешения. Разрешить запись файла?";
+//                    break;
+//                case PERMISSIONS_CAMERA:
+//                    permissionString = Manifest.permission.CAMERA;
+//                    alertDialogTitle = "Доступ к камере";
+//                    alertDialogMessage = "Мы не можем использовать камеру без Вашего разрешения. Разрешить использование камеры?";
+//                    break;
+//                default:
+//                    permissionString = "";
+//                    alertDialogTitle = "";
+//                    alertDialogMessage = "";
+//            }
+
+//            if (ActivityCompat.checkSelfPermission(this, permissionString) != PackageManager.PERMISSION_GRANTED) {
+//                // TODO: Consider calling
+//                //    ActivityCompat#requestPermissions
+//                // here to request the missing permissions, and then overriding
+//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                //                                          int[] grantResults)
+//                // to handle the case where the user grants the permission. See the documentation
+//                // for ActivityCompat#requestPermissions for more details.
+//                if (shouldShowRequestPermissionRationale(permissionString)) {
+//                    new AlertDialog.Builder(Signature.this)
+//                            .setTitle(alertDialogTitle)
+//                            .setMessage(alertDialogMessage)
+//                            .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                                        requestPermissions(new String[]{ permissionString }, requestCode);
+//                                    }
+//                                }
+//                            })
+//                            .setNegativeButton("Нет, спасибо", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    Toast.makeText(Signature.this, ":(", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }).show();
+//                } else {
+//                    ActivityCompat.requestPermissions(this, new String[]{ permissionString }, requestCode);
+//                }
+//            }
+//        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        String accessGranted;
-        String accessDenied;
-        switch (requestCode) {
-            case PERMISSIONS_WRITE_EXTERNAL_STORAGE:
-                accessGranted = "Доступ к записи на внешний накопитель разрешен";
-                accessDenied = "Доступ к записи на внешний накопитель запрещен";
-                break;
-            case PERMISSIONS_CAMERA:
-                accessGranted = "Доступ к камере разрешен";
-                accessDenied = "Доступ к камере запрещен";
-                break;
-            default:
-                accessGranted = "";
-                accessDenied = "";
-        }
-        // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this,
-                        accessGranted,
-                        Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this,
-                        accessDenied,
-                        Toast.LENGTH_LONG).show();
-            }
-        }
+//        String accessGranted;
+//        String accessDenied;
+//        switch (requestCode) {
+//            case PERMISSIONS_WRITE_EXTERNAL_STORAGE:
+//                accessGranted = "Доступ к записи на внешний накопитель разрешен";
+//                accessDenied = "Доступ к записи на внешний накопитель запрещен";
+//                break;
+//            case PERMISSIONS_CAMERA:
+//                accessGranted = "Доступ к камере разрешен";
+//                accessDenied = "Доступ к камере запрещен";
+//                break;
+//            default:
+//                accessGranted = "";
+//                accessDenied = "";
+//        }
+
+//        // If request is cancelled, the result arrays are empty.
+//        if (grantResults.length > 0) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(this,
+//                        accessGranted,
+//                        Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(this,
+//                        accessDenied,
+//                        Toast.LENGTH_LONG).show();
+//            }
+//        }
     }
 }

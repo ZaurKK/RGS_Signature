@@ -11,14 +11,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:fullBackupContent="@xml/backup_descriptor">
         <activity
             android:name="com.zaurkandokhov.signature.Splash"
             android:label="@string/app_name"
-            android:taskAffinity="com.zaurkandokhov.signature">
+            android:taskAffinity="com.zaurkandokhov.signature"
+            android:icon="@mipmap/ic_launcher_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +27,8 @@
         <activity
             android:name="com.zaurkandokhov.signature.Settings"
             android:label="@string/app_settings"
-            android:taskAffinity="com.zaurkandokhov.settings">
+            android:taskAffinity="com.zaurkandokhov.settings"
+            android:icon="@mipmap/ic_launcher_settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
