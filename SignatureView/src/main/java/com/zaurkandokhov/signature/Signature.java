@@ -103,17 +103,17 @@ public class Signature extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_download:
-                saveBitmapImage(signatureView.getSignatureBitmap(), FILE_SIGNATURE_PREFIX, false, false);
-                return true;
             case R.id.action_camera:
                 showCameraIntent();
                 return true;
+            case R.id.action_download:
+                saveBitmapImage(signatureView.getSignatureBitmap(), FILE_SIGNATURE_PREFIX, false, false);
+                //return true;
             case R.id.action_clear:
                 signatureView.clearCanvas();//Clear SignatureView
-                Toast.makeText(getApplicationContext(),
-                        R.string.canvas_cleared,
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        R.string.canvas_cleared,
+//                        Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_info:
                 infoDialog();
@@ -170,7 +170,6 @@ public class Signature extends AppCompatActivity {
 
     private void showCameraIntent() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         startActivityForResult(cameraIntent, REQUEST_CODE_CAMERA);
     }
 
@@ -258,6 +257,7 @@ public class Signature extends AppCompatActivity {
             case REQUEST_CODE_CAMERA:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
+                        data.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                         Bitmap photo = imageOrientationValidator((Bitmap) data.getExtras().get("data"), "photo_temp.png");
                         saveBitmapImage(photo, FILE_CAMERA_PREFIX, false, false);
                         showCameraIntent();
