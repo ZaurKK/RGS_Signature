@@ -49,7 +49,8 @@ public class Splash extends AppCompatActivity {
 //                    startActivity(Login.class);
 //                else
 //                startActivity(Signature.class);
-                startActivity(Signature.class);
+                //startActivity(Signature.class);
+                startActivity(Settings.class);
             }
         }, SPLASH_TIME_OUT);
     }

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.zaurkandokhov.signature"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 3
         versionName "1.0.2"
@@ -27,5 +27,6 @@ dependencies {
 //    implementation 'com.kyanogen.signatureview:signature-view:1.2'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation 'ca.mimic:oauth2library:2.4.2'
+    implementation 'net.openid:appauth:0.7.0'
+    //implementation 'ca.mimic:oauth2library:2.4.2'
 }

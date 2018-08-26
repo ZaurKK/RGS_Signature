@@ -196,6 +196,7 @@ public class Signature extends AppCompatActivity {
             e.printStackTrace();
         } finally {
             try {
+
                 if (out != null) {
                     out.flush();
                     out.close();
