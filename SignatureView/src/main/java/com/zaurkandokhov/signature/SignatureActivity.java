@@ -43,7 +43,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class Signature extends AppCompatActivity {
+public class SignatureActivity extends AppCompatActivity {
     private static final int PERMISSIONS_ALL = 0;
     private static final int PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
     private static final int PERMISSIONS_CAMERA = 2;

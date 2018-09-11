@@ -16,8 +16,9 @@
         android:icon="@mipmap/ic_launcher_main"
         android:fullBackupContent="@xml/backup_descriptor"
         android:usesCleartextTraffic="true">
+
         <activity
-            android:name="com.zaurkandokhov.signature.Splash"
+            android:name="com.zaurkandokhov.signature.SplashActivity"
             android:label="@string/app_name"
             android:taskAffinity="com.zaurkandokhov.signature"
             android:icon="@mipmap/ic_launcher_main">
@@ -26,8 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name="com.zaurkandokhov.signature.Settings"
+            android:name="com.zaurkandokhov.signature.SettingsActivity"
             android:label="@string/app_settings"
             android:taskAffinity="com.zaurkandokhov.settings"
             android:icon="@mipmap/ic_launcher_settings">
@@ -35,9 +37,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.codelabs.appauth.HANDLE_AUTHORIZATION_RESPONSE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
+
         <activity
-            android:name="com.zaurkandokhov.signature.Signature"
+            android:name="com.zaurkandokhov.signature.SignatureActivity"
             android:label="@string/title_activity_signature"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -50,14 +57,24 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name= "com.zaurkandokhov.signature.Login"
+            android:name= "com.zaurkandokhov.signature.LoginActivity"
             android:theme="@style/AppTheme" >
         </activity>
+
         <activity
-            android:name="com.zaurkandokhov.signature.Signup"
+            android:name="com.zaurkandokhov.signature.SignupActivity"
             android:theme="@style/AppTheme" >
+        </activity>
+
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="com.google.codelabs.appauth"/>
+            </intent-filter>
         </activity>
     </application>
-
 </manifest>

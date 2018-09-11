@@ -1,6 +1,5 @@
 package com.zaurkandokhov.signature;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Splash extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_TIME_OUT = 2000;
 
@@ -46,11 +45,11 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
 //                if (!sharedPreferences.contains(EMAIL_KEY))
-//                    startActivity(Login.class);
+//                    startActivity(LoginActivity.class);
 //                else
 //                startActivity(Signature.class);
                 //startActivity(Signature.class);
-                startActivity(Settings.class);
+                startActivity(SettingsActivity.class);
             }
         }, SPLASH_TIME_OUT);
     }
@@ -60,7 +59,7 @@ public class Splash extends AppCompatActivity {
     }
 
     public void startActivity(Class<?> activityClass) {
-        Intent i = new Intent(Splash.this, activityClass);
+        Intent i = new Intent(SplashActivity.this, activityClass);
         startActivity(i);
         finish();
     }

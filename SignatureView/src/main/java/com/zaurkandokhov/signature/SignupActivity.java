@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Signup extends AppCompatActivity {
-    private static final String TAG = "Signup";
+public class SignupActivity extends AppCompatActivity {
+    private static final String TAG = "SignupActivity";
 
     EditText nameText;
     EditText emailText;
@@ -34,7 +34,7 @@ public class Signup extends AppCompatActivity {
         loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
+                // Finish the registration screen and return to the LoginActivity activity
                 finish();
             }
         });
@@ -50,7 +50,7 @@ public class Signup extends AppCompatActivity {
 
         signupButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(Signup.this,
+        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
                 R.style.AppTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");

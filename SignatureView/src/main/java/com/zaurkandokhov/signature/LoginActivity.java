@@ -13,13 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.zaurkandokhov.signature.Splash.EMAIL_KEY;
-import static com.zaurkandokhov.signature.Splash.MY_PREF;
-import static com.zaurkandokhov.signature.Splash.PASSWORD_KEY;
-import static com.zaurkandokhov.signature.Splash.sharedPreferences;
+import static com.zaurkandokhov.signature.SplashActivity.EMAIL_KEY;
+import static com.zaurkandokhov.signature.SplashActivity.MY_PREF;
+import static com.zaurkandokhov.signature.SplashActivity.PASSWORD_KEY;
+import static com.zaurkandokhov.signature.SplashActivity.sharedPreferences;
 
-public class Login extends AppCompatActivity {
-    private static final String TAG = "Login";
+public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
     EditText emailText;
@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), Signup.class);
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
@@ -78,7 +78,7 @@ public class Login extends AppCompatActivity {
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(Login.this,
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");

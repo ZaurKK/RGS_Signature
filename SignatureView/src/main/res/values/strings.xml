@@ -16,4 +16,12 @@
 
     <string name="c_name">Росгосстрах Медицина</string>
     <string name="canvas_cleared">Экран очищен</string>
+
+    <string name="make_authorization_request">Make Authorization Request</string>
+    <string name="make_api_call">Make API Call</string>
+    <string name="sign_out">Sign Out</string>
+
+    <string name="restrictions_pending_block_user">This application is
+        waiting for further configuration details and cannot continue
+        to run. Please contact your IT admin for further details</string>
 </resources>
